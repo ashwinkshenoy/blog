@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loader v-show="post && post.length === 0" />
     <!-- Main Post Content -->
     <div
       class="true-post-content"
@@ -7,7 +8,7 @@
       :key="`post-content-${index}`"
     >
       <img
-        :src="post.jetpack_featured_media_url"
+        v-lazy="post.jetpack_featured_media_url"
         :alt="post.slug"
         class="true-post-content__img"
       />
@@ -15,36 +16,28 @@
         v-html="getPostTitle(post.title.rendered)"
         class="true-post-content__title"
       ></h1>
-      <span v-html="getDate(post.date)" class="true-post-content__date"></span>
-      <p v-html="post.content.rendered" class="true-post-content__data"></p>
-    </div>
 
-    <hr />
-
-    <!-- Related Posts -->
-    <div class="true-post-related">
-      <h2>Related Articles</h2>
-      <div
-        class="row"
-        v-for="(post, index) in post"
-        :key="`post-content-${index}`"
-      >
-        <a
-          :href="related.url"
-          target="_blank"
-          rel="noreferrer noopener"
-          class="true-post-related__content col"
-          v-for="(related, index) in post['jetpack-related-posts'].slice(0, 4)"
-          :key="`post-content-${index}`"
-        >
-          <img
-            :src="related.img.src"
-            :alt="related.alt_text"
-            class="true-post-related__img"
-          />
-          <h3 v-html="related.title"></h3>
-        </a>
+      <div class="true-post-content__author">
+        <img
+          :src="
+            post._embedded.author && post._embedded.author[0].avatar_urls['96']
+          "
+          :alt="post._embedded.author && post._embedded.author[0].name"
+          class="true-post-content__author-img"
+        />
+        <span class="true-post-content__author-name">
+          by
+          <strong>{{
+            post._embedded.author && post._embedded.author[0].name
+          }}</strong>
+          -
+        </span>
+        <span
+          v-html="getDate(post.date)"
+          class="true-post-content__date"
+        ></span>
       </div>
+      <p v-html="post.content.rendered" class="true-post-content__data"></p>
     </div>
   </div>
 </template>
@@ -52,6 +45,7 @@
 <script>
 import { format, render, cancel, register } from "timeago.js";
 import { mapGetters, mapActions } from "vuex";
+import Loader from "~/components/loader.vue";
 
 export default {
   name: "Post",
@@ -61,6 +55,10 @@ export default {
     return {
       title: "Truecaller"
     };
+  },
+
+  components: {
+    Loader
   },
 
   computed: {
@@ -98,7 +96,6 @@ export default {
 
 <style lang="scss">
 $el: ".true-post-content";
-$elRelated: ".true-post-related";
 
 #{$el} {
   margin: 50px 0 70px;
@@ -113,6 +110,18 @@ $elRelated: ".true-post-related";
     margin: 30px 0 10px;
     font-size: 34px;
     text-transform: uppercase;
+  }
+  &__author {
+    margin: 20px 0;
+  }
+  &__author-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50px;
+  }
+  &__author-name {
+    margin-left: 10px;
   }
   &__date {
     font-size: 14px;
@@ -166,26 +175,6 @@ $elRelated: ".true-post-related";
     li {
       list-style: none;
     }
-  }
-}
-
-#{$elRelated} {
-  margin: 60px 0 50px;
-  h2 {
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 1.38;
-    margin-bottom: 18px;
-  }
-  h3 {
-    font-weight: 600;
-    margin: 10px 0;
-    font-size: 18px;
-  }
-  img {
-    width: 100%;
-    object-fit: contain;
-    border-radius: 5px;
   }
 }
 </style>

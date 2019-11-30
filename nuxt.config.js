@@ -1,8 +1,6 @@
 export default {
   mode: "universal",
-  /*
-   ** Headers of the page
-   */
+
   head: {
     title: process.env.npm_package_name || "",
     meta: [
@@ -42,32 +40,22 @@ export default {
       }
     ]
   },
-  /*
-   ** Customize the progress-bar color
-   */
+
   loading: { color: "#fff" },
-  /*
-   ** Global CSS
-   */
+
   css: [],
-  /*
-   ** Plugins to load before mounting the App
-   */
-  plugins: [],
-  /*
-   ** Nuxt.js dev-modules
-   */
-  buildModules: [],
-  /*
-   ** Nuxt.js modules
-   */
-  modules: [
-    // Doc: https://bootstrap-vue.js.org
-    "bootstrap-vue/nuxt",
-    // Doc: https://axios.nuxtjs.org/usage
-    "@nuxtjs/axios",
-    "@nuxtjs/proxy"
+
+  plugins: [
+    {
+      src: "~/plugins/vue-lazyload.js"
+    }
   ],
+
+  buildModules: [],
+
+  modules: ["bootstrap-vue/nuxt", "@nuxtjs/axios", "@nuxtjs/proxy"],
+
+  // Using Proxy to avoid cors error
   proxy: {
     "/posts": {
       target: "https://truecaller.blog/wp-json/wp/v2"
@@ -79,10 +67,7 @@ export default {
       target: "https://truecaller.blog/wp-json/wp/v2"
     }
   },
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
+
   axios: {
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -90,13 +75,8 @@ export default {
         "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD"
     }
   },
-  /*
-   ** Build configuration
-   */
+
   build: {
-    /*
-     ** You can extend webpack config here
-     */
     extend(config, ctx) {}
   }
 };

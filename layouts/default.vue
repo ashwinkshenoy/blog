@@ -1,8 +1,21 @@
 <template>
   <div>
+    <tc-header />
     <nuxt />
   </div>
 </template>
+
+<script>
+import TcHeader from "~/components/header.vue";
+
+export default {
+  name: "Default",
+
+  components: {
+    TcHeader
+  }
+};
+</script>
 
 <style lang="scss">
 body {

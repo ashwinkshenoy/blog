@@ -49,11 +49,22 @@ export const mutations = {
 const url = `https://truecaller.blog/wp-json/wp/v2`;
 
 export const actions = {
-  getPostsData: async ({ commit }, value = 1) => {
+  getPostsData: async ({ commit }, value) => {
     try {
-      const { data } = await axios.get(`/posts?per_page=25&page=${value}`, {
-        crossdomain: true
-      });
+      let appendUrl = "";
+      if (value && value.tagId) {
+        appendUrl = `&tags[]=${value.tagId}`;
+      }
+      if (value && value.categoryId) {
+        appendUrl = `&categories=${value.categoryId}`;
+      }
+
+      const { data } = await axios.get(
+        `/posts?per_page=25&page=1&_embed${appendUrl}`,
+        {
+          crossdomain: true
+        }
+      );
       commit("SET_POSTS", data);
     } catch (error) {
       console.log(error);
@@ -61,9 +72,12 @@ export const actions = {
   },
   getMorePosts: async ({ commit, state }, value = 1) => {
     try {
-      const { data } = await axios.get(`/posts?per_page=25&page=${value}`, {
-        crossdomain: true
-      });
+      const { data } = await axios.get(
+        `/posts?per_page=25&page=${value}&_embed`,
+        {
+          crossdomain: true
+        }
+      );
       commit("SET_POSTS", [...state.posts, ...data]);
       commit("SET_PAGE", value);
     } catch (error) {
@@ -72,7 +86,7 @@ export const actions = {
   },
   getSinglePostData: async ({ commit }, value) => {
     try {
-      const { data } = await axios.get(`/posts?slug=${value}`);
+      const { data } = await axios.get(`/posts?slug=${value}&_embed`);
       commit("SET_POST", data);
     } catch (error) {
       console.log(error);
@@ -96,6 +110,9 @@ export const actions = {
   },
   setPage({ commit }, value) {
     commit("SET_PAGE", value);
+  },
+  resetPosts({ commit }, value) {
+    commit("SET_POSTS", []);
   },
   resetSinglePost({ commit }, value) {
     commit("SET_POST", []);
