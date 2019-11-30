@@ -8,7 +8,11 @@
         <!-- Tags -->
         <div class="true-categories">
           <h2>Tags</h2>
-          <div class="true-category" v-for="(tag, index) in tags" :key="`tag-${index}`">
+          <div
+            class="true-category"
+            v-for="(tag, index) in tags"
+            :key="`tag-${index}`"
+          >
             <p>{{ tag.name }}</p>
           </div>
         </div>
@@ -29,33 +33,33 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
-  export default {
-    computed: {
-      ...mapGetters(["categories", "tags"])
-    },
+export default {
+  computed: {
+    ...mapGetters(["categories", "tags"])
+  },
 
-    created() {
-      // this.getCategories();
-      // this.getTags();
-    },
+  created() {
+    this.getCategories();
+    this.getTags();
+  },
 
-    methods: {
-      ...mapActions(["getCategories", "getTags"])
-    }
-  };
+  methods: {
+    ...mapActions(["getCategories", "getTags"])
+  }
+};
 </script>
 
 <style lang="scss">
-  $el: ".true-categories";
+$el: ".true-categories";
 
-  #{$el} {
-    h2 {
-      font-weight: 600;
-      margin: 50px 0 20px;
-      font-size: 20px;
-      text-transform: uppercase;
-    }
+#{$el} {
+  h2 {
+    font-weight: 600;
+    margin: 50px 0 20px;
+    font-size: 20px;
+    text-transform: uppercase;
   }
+}
 </style>

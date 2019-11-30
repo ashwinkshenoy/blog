@@ -65,8 +65,20 @@ export default {
     // Doc: https://bootstrap-vue.js.org
     "bootstrap-vue/nuxt",
     // Doc: https://axios.nuxtjs.org/usage
-    "@nuxtjs/axios"
+    "@nuxtjs/axios",
+    "@nuxtjs/proxy"
   ],
+  proxy: {
+    "/posts": {
+      target: "https://truecaller.blog/wp-json/wp/v2"
+    },
+    "/tags": {
+      target: "https://truecaller.blog/wp-json/wp/v2"
+    },
+    "/categories": {
+      target: "https://truecaller.blog/wp-json/wp/v2"
+    }
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
@@ -75,8 +87,7 @@ export default {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods":
-        "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD",
-      "Content-Type": "application/json"
+        "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD"
     }
   },
   /*

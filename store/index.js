@@ -4,7 +4,8 @@ const initialState = {
   posts: [],
   post: [],
   categories: [],
-  tags: []
+  tags: [],
+  page: 1
 };
 
 export const state = () => initialState;
@@ -21,6 +22,9 @@ export const getters = {
   },
   tags(state) {
     return state.tags;
+  },
+  page(state) {
+    return state.page;
   }
 };
 
@@ -36,6 +40,9 @@ export const mutations = {
   },
   SET_TAGS(state, value) {
     state.tags = value;
+  },
+  SET_PAGE(state, value) {
+    state.page = value;
   }
 };
 
@@ -44,7 +51,9 @@ const url = `https://truecaller.blog/wp-json/wp/v2`;
 export const actions = {
   getPostsData: async ({ commit }, value = 1) => {
     try {
-      const { data } = await axios.get(`${url}/posts?per_page=1&page=${value}`);
+      const { data } = await axios.get(`/posts?per_page=25&page=${value}`, {
+        crossdomain: true
+      });
       commit("SET_POSTS", data);
     } catch (error) {
       console.log(error);
@@ -52,18 +61,18 @@ export const actions = {
   },
   getMorePosts: async ({ commit, state }, value = 1) => {
     try {
-      const { data } = await axios.get(
-        `${url}/posts?per_page=1&page=${value}`,
-        { crossdomain: true }
-      );
+      const { data } = await axios.get(`/posts?per_page=25&page=${value}`, {
+        crossdomain: true
+      });
       commit("SET_POSTS", [...state.posts, ...data]);
+      commit("SET_PAGE", value);
     } catch (error) {
       console.log(error);
     }
   },
   getSinglePostData: async ({ commit }, value) => {
     try {
-      const { data } = await axios.get(`${url}/posts?slug=${value}`);
+      const { data } = await axios.get(`/posts?slug=${value}`);
       commit("SET_POST", data);
     } catch (error) {
       console.log(error);
@@ -71,7 +80,7 @@ export const actions = {
   },
   getCategories: async ({ commit }, value) => {
     try {
-      const { data } = await axios.get(`${url}/categories`);
+      const { data } = await axios.get(`/categories`);
       commit("SET_CATEGORIES", data);
     } catch (error) {
       console.log(error);
@@ -79,11 +88,14 @@ export const actions = {
   },
   getTags: async ({ commit }, value) => {
     try {
-      const { data } = await axios.get(`${url}/tags`);
+      const { data } = await axios.get(`/tags`);
       commit("SET_TAGS", data);
     } catch (error) {
       console.log(error);
     }
+  },
+  setPage({ commit }, value) {
+    commit("SET_PAGE", value);
   },
   resetSinglePost({ commit }, value) {
     commit("SET_POST", []);
