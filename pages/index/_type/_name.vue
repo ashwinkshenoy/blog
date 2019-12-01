@@ -24,8 +24,14 @@ export default {
     ...mapGetters(["posts", "page"])
   },
 
-  created() {
-    this.getByType(this.$route.params.type);
+  async fetch({ store, route }) {
+    if (route.params.type === "category") {
+      await store.dispatch("getCategories", {
+        categorySlug: route.params.name
+      });
+    } else if (route.params.type === "tag") {
+      await store.dispatch("getTags", { tagSlug: route.params.name });
+    }
   },
 
   methods: {
@@ -35,13 +41,13 @@ export default {
       return format(date, "en_US");
     },
 
-    getByType(type) {
-      if (type === "category") {
-        this.getCategories({ categorySlug: this.$route.params.name });
-      } else if (type === "tag") {
-        this.getTags({ tagSlug: this.$route.params.name });
-      }
-    },
+    // getByType(type) {
+    //   if (type === "category") {
+    //     this.getCategories({ categorySlug: this.$route.params.name });
+    //   } else if (type === "tag") {
+    //     this.getTags({ tagSlug: this.$route.params.name });
+    //   }
+    // },
 
     setPageTitle() {
       const { name, type } = this.$route.params;
@@ -50,12 +56,6 @@ export default {
         .split(" ")
         .map(s => s.charAt(0).toUpperCase() + s.substring(1))
         .join(" ")} | ${type.charAt(0).toUpperCase() + type.slice(1)}`;
-    }
-  },
-
-  watch: {
-    $route({ params, query }) {
-      this.getByType(params.type);
     }
   },
 

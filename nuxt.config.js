@@ -55,20 +55,20 @@ export default {
 
   buildModules: [],
 
-  modules: ["bootstrap-vue/nuxt", "@nuxtjs/axios", "@nuxtjs/proxy"],
+  modules: ["bootstrap-vue/nuxt", "@nuxtjs/axios"],
 
   // Using Proxy to avoid cors error
-  proxy: {
-    "/posts": {
-      target: blogUrl
-    },
-    "/tags": {
-      target: blogUrl
-    },
-    "/categories": {
-      target: blogUrl
-    }
-  },
+  // proxy: {
+  //   "/posts": {
+  //     target: blogUrl
+  //   },
+  //   "/tags": {
+  //     target: blogUrl
+  //   },
+  //   "/categories": {
+  //     target: blogUrl
+  //   }
+  // },
 
   axios: {
     headers: {
@@ -76,9 +76,9 @@ export default {
       "Access-Control-Allow-Methods":
         "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD"
     },
-    proxyHeaders: false,
-    credentials: false,
-    debug: true
+    // proxyHeaders: false,
+    credentials: false
+    // debug: true
   },
 
   build: {

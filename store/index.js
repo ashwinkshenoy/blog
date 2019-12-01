@@ -46,7 +46,7 @@ export const mutations = {
   }
 };
 
-const url = `https://truecaller.blog/wp-json/wp/v2`;
+const url = `https://public-api.wordpress.com/wp/v2/sites/truecaller.blog`;
 
 export const actions = {
   getPostsData: async ({ commit }, value) => {
@@ -74,7 +74,7 @@ export const actions = {
   getMorePosts: async ({ commit, state }, value = 1) => {
     try {
       const { data } = await axios.get(
-        `/posts?per_page=25&page=${value}&_embed`,
+        `${url}/posts?per_page=25&page=${value}&_embed`,
         {
           crossdomain: true
         }
@@ -88,8 +88,18 @@ export const actions = {
 
   getSinglePostData: async ({ commit }, value) => {
     try {
-      const { data } = await axios.get(`${url}/posts?slug=${value}&_embed`);
-      commit("SET_POST", data);
+      let appendUrl = "";
+      if (value && value.postId) {
+        appendUrl = `include=${value.postId}`;
+      } else {
+        appendUrl = `slug=${value}`;
+      }
+      const { data } = await axios.get(`${url}/posts?${appendUrl}&_embed`);
+      if (value && value.postId) {
+        return Promise.resolve(data);
+      } else {
+        commit("SET_POST", data);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -101,10 +111,11 @@ export const actions = {
       if (value && value.categorySlug) {
         appendUrl = `?slug=${value.categorySlug}`;
       }
-      const { data } = await axios.get(`/categories${appendUrl}`);
+      const { data } = await axios.get(`${url}/categories${appendUrl}`);
       if (value && value.categorySlug) {
         dispatch("resetPosts");
-        dispatch("getPostsData", { categoryId: data[0].id });
+        await dispatch("getPostsData", { categoryId: data[0].id });
+        return Promise.resolve(data);
       } else {
         commit("SET_CATEGORIES", data);
       }
@@ -119,10 +130,10 @@ export const actions = {
       if (value && value.tagSlug) {
         appendUrl = `?slug=${value.tagSlug}`;
       }
-      const { data } = await axios.get(`/tags${appendUrl}`);
+      const { data } = await axios.get(`${url}/tags${appendUrl}`);
       if (value && value.tagSlug) {
         dispatch("resetPosts");
-        dispatch("getPostsData", { tagId: data[0].id });
+        await dispatch("getPostsData", { tagId: data[0].id });
       } else {
         commit("SET_TAGS", data);
       }
