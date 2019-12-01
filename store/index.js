@@ -46,7 +46,7 @@ export const mutations = {
   }
 };
 
-// const url = `https://truecaller.blog/wp-json/wp/v2`;
+const url = `https://truecaller.blog/wp-json/wp/v2`;
 
 export const actions = {
   getPostsData: async ({ commit }, value) => {
@@ -60,7 +60,7 @@ export const actions = {
       }
 
       const { data } = await axios.get(
-        `https://truecaller.blog/wp-json/wp/v2/posts?per_page=25&page=1${appendUrl}&_embed`,
+        `${url}/posts?per_page=25&page=1${appendUrl}&_embed`,
         {
           crossdomain: true
         }
@@ -88,9 +88,7 @@ export const actions = {
 
   getSinglePostData: async ({ commit }, value) => {
     try {
-      const { data } = await axios.get(
-        `https://truecaller.blog/wp-json/wp/v2/posts?slug=${value}&_embed`
-      );
+      const { data } = await axios.get(`${url}/posts?slug=${value}&_embed`);
       commit("SET_POST", data);
     } catch (error) {
       console.log(error);
