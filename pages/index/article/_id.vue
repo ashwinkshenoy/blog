@@ -28,7 +28,7 @@
         </span>
         <span v-html="getDate(post.date)" class="true-post-content__date"></span>
       </div>
-      <p v-html="post.content.rendered" class="true-post-content__data"></p>
+      <div v-html="post.content.rendered" class="true-post-content__data"></div>
     </div>
   </div>
 </template>
@@ -56,8 +56,8 @@
       ...mapGetters(["post"])
     },
 
-    created() {
-      this.getSinglePostData(this.$route.params.id);
+    async fetch({ store, route }) {
+      await store.dispatch("getSinglePostData", route.params.id);
     },
 
     methods: {
@@ -133,6 +133,11 @@
       font-size: 18px;
       font-weight: 400;
       margin-top: 10px;
+      img {
+        width: 100%;
+        border-radius: 10px;
+        object-position: cover;
+      }
     }
     & h2,
     & h3,

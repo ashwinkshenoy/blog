@@ -1,3 +1,5 @@
+const blogUrl = "https://truecaller.blog/wp-json/wp/v2";
+
 export default {
   mode: "universal",
 
@@ -58,13 +60,13 @@ export default {
   // Using Proxy to avoid cors error
   proxy: {
     "/posts": {
-      target: "https://truecaller.blog/wp-json/wp/v2"
+      target: blogUrl
     },
     "/tags": {
-      target: "https://truecaller.blog/wp-json/wp/v2"
+      target: blogUrl
     },
     "/categories": {
-      target: "https://truecaller.blog/wp-json/wp/v2"
+      target: blogUrl
     }
   },
 
@@ -77,6 +79,8 @@ export default {
   },
 
   build: {
+    extractCSS: true,
+    optimizeCSS: true,
     extend(config, ctx) {}
   }
 };
