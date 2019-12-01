@@ -6,7 +6,7 @@
       </div>
       <div class="col-12 col-md-3 offset-md-1">
         <!-- Categories -->
-        <div class="true-cat-tags">
+        <div class="true-cat-tags" v-show="categories && categories.length > 0">
           <h2>Categories</h2>
           <div
             class="true-category"
@@ -21,7 +21,7 @@
         </div>
 
         <!-- Tags -->
-        <div class="true-cat-tags">
+        <div class="true-cat-tags" v-show="tags && tags.length > 0">
           <h2>Tags</h2>
           <div class="true-tag" v-for="(tag, index) in tags" :key="`tag-${index}`">
             <p
