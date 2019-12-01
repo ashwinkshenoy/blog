@@ -13,19 +13,21 @@
             v-for="(category, index) in categories"
             :key="`category-${index}`"
           >
-            <p @click="getPostsByCategory(category.id)">{{ category.name }}</p>
+            <p
+              @click="getPostsByCategory(category.slug)"
+              :class="[{'is-active': typeName === category.slug}]"
+            >{{ category.name }}</p>
           </div>
         </div>
 
         <!-- Tags -->
         <div class="true-cat-tags">
           <h2>Tags</h2>
-          <div
-            class="true-tag"
-            v-for="(tag, index) in tags"
-            :key="`tag-${index}`"
-          >
-            <p @click="getPostsByTag(tag.id)">{{ tag.name }}</p>
+          <div class="true-tag" v-for="(tag, index) in tags" :key="`tag-${index}`">
+            <p
+              @click="getPostsByTag(tag.slug)"
+              :class="[{'is-active': typeName === tag.slug}]"
+            >{{ tag.name }}</p>
           </div>
         </div>
       </div>
@@ -37,53 +39,59 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import RelatedPosts from "~/components/relatedPosts.vue";
+  import { mapGetters, mapActions } from "vuex";
+  import RelatedPosts from "~/components/relatedPosts.vue";
 
-export default {
-  components: {
-    RelatedPosts
-  },
-
-  computed: {
-    ...mapGetters(["categories", "tags", "post"])
-  },
-
-  created() {
-    this.getCategories();
-    this.getTags();
-  },
-
-  methods: {
-    ...mapActions(["getCategories", "getTags", "getPostsData", "resetPosts"]),
-
-    getPostsByTag(tagId) {
-      this.resetPosts();
-      this.getPostsData({ tagId });
-      this.$router.push({ path: "/" });
+  export default {
+    components: {
+      RelatedPosts
     },
 
-    getPostsByCategory(categoryId) {
-      this.resetPosts();
-      this.getPostsData({ categoryId });
-      this.$router.push({ path: "/" });
+    computed: {
+      ...mapGetters(["categories", "tags", "post"]),
+
+      typeName() {
+        return this.$route.params.name;
+      }
+    },
+
+    created() {
+      this.getCategories();
+      this.getTags();
+    },
+
+    methods: {
+      ...mapActions(["getCategories", "getTags", "getPostsData", "resetPosts"]),
+
+      getPostsByTag(tagSlug) {
+        this.$router.push({ path: `/tag/${tagSlug}` });
+      },
+
+      getPostsByCategory(categorySlug) {
+        this.$router.push({ path: `/category/${categorySlug}` });
+      }
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss">
-$el: ".true-cat-tags";
+  $el: ".true-cat-tags";
 
-#{$el} {
-  h2 {
-    font-weight: 600;
-    margin: 50px 0 20px;
-    font-size: 24px;
-    // text-transform: uppercase;
+  #{$el} {
+    h2 {
+      font-weight: 600;
+      margin: 50px 0 20px;
+      font-size: 24px;
+      // text-transform: uppercase;
+    }
+    p {
+      cursor: pointer;
+      position: relative;
+      transition: 0.2s all linear;
+      &.is-active {
+        border-left: solid 3px #0086fe;
+        padding-left: 10px;
+      }
+    }
   }
-  p {
-    cursor: pointer;
-  }
-}
 </style>

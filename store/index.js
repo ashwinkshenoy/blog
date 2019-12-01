@@ -46,7 +46,7 @@ export const mutations = {
   }
 };
 
-const url = `https://truecaller.blog/wp-json/wp/v2`;
+// const url = `https://truecaller.blog/wp-json/wp/v2`;
 
 export const actions = {
   getPostsData: async ({ commit }, value) => {
@@ -60,7 +60,7 @@ export const actions = {
       }
 
       const { data } = await axios.get(
-        `/posts?per_page=25&page=1&_embed${appendUrl}`,
+        `/posts?per_page=25&page=1${appendUrl}&_embed`,
         {
           crossdomain: true
         }
@@ -70,6 +70,7 @@ export const actions = {
       console.log(error);
     }
   },
+
   getMorePosts: async ({ commit, state }, value = 1) => {
     try {
       const { data } = await axios.get(
@@ -84,6 +85,7 @@ export const actions = {
       console.log(error);
     }
   },
+
   getSinglePostData: async ({ commit }, value) => {
     try {
       const { data } = await axios.get(`/posts?slug=${value}&_embed`);
@@ -92,28 +94,51 @@ export const actions = {
       console.log(error);
     }
   },
-  getCategories: async ({ commit }, value) => {
+
+  getCategories: async ({ commit, dispatch }, value) => {
     try {
-      const { data } = await axios.get(`/categories`);
-      commit("SET_CATEGORIES", data);
+      let appendUrl = "";
+      if (value && value.categorySlug) {
+        appendUrl = `?slug=${value.categorySlug}`;
+      }
+      const { data } = await axios.get(`/categories${appendUrl}`);
+      if (value && value.categorySlug) {
+        dispatch("resetPosts");
+        dispatch("getPostsData", { categoryId: data[0].id });
+      } else {
+        commit("SET_CATEGORIES", data);
+      }
     } catch (error) {
       console.log(error);
     }
   },
-  getTags: async ({ commit }, value) => {
+
+  getTags: async ({ commit, dispatch }, value) => {
     try {
-      const { data } = await axios.get(`/tags`);
-      commit("SET_TAGS", data);
+      let appendUrl = "";
+      if (value && value.tagSlug) {
+        appendUrl = `?slug=${value.tagSlug}`;
+      }
+      const { data } = await axios.get(`/tags${appendUrl}`);
+      if (value && value.tagSlug) {
+        dispatch("resetPosts");
+        dispatch("getPostsData", { tagId: data[0].id });
+      } else {
+        commit("SET_TAGS", data);
+      }
     } catch (error) {
       console.log(error);
     }
   },
+
   setPage({ commit }, value) {
     commit("SET_PAGE", value);
   },
+
   resetPosts({ commit }, value) {
     commit("SET_POSTS", []);
   },
+
   resetSinglePost({ commit }, value) {
     commit("SET_POST", []);
   }
