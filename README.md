@@ -26,5 +26,5 @@ $ npm run start
 
 ## Demo
 
-- Demo: [Heroku Link](http://demo-blog.herokuapp.com)
+- Demo: [Heroku Link](http://blog-demo-nuxt.herokuapp.com)
 - Github: [Link](https://github.com/ashwinkshenoy/blog)
