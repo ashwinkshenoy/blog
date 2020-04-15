@@ -56,7 +56,7 @@
 
     head() {
       return {
-        title: "Truecaller Blog"
+        title: "Rentomojo Blog"
       };
     }
   };
