@@ -61,7 +61,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["categories", "tags", "post"]),
+    ...mapGetters(["categories", "tags", "post", "related"]),
 
     typeName() {
       return this.$route.params.name;
@@ -102,7 +102,7 @@ $el: ".true-cat-tags";
     position: relative;
     transition: 0.2s all linear;
     &.is-active {
-      border-left: solid 3px #0086fe;
+      border-left: solid 3px #dc3226;
       padding-left: 10px;
     }
   }

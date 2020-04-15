@@ -1,7 +1,7 @@
 <template>
   <div class="true-header">
     <n-link to="/">
-      <img src="@/assets/images/logo.svg" alt="header-logo" />
+      <img src="https://www.rentomojo.com/public/images/logo.svg" alt="header-logo" />
     </n-link>
   </div>
 </template>
@@ -14,22 +14,22 @@
 
 <style lang="scss">
   .true-header {
-    background: #0086fe;
-    padding: 5px;
+    // background: #dc3226;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-      0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 10px 0 rgba(0,0,0,.16);
 
     img {
-      width: 200px;
+      width: 170px;
+      // filter: grayscale(1) contrast(100) invert(1);
     }
 
     @media screen and (min-width: 768px) {
       padding: 15px;
       img {
-        width: 250px;
+        width: 170px;
       }
     }
   }

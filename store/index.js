@@ -5,7 +5,8 @@ const initialState = {
   post: [],
   categories: [],
   tags: [],
-  page: 1
+  page: 1,
+  related: []
 };
 
 export const state = () => initialState;
@@ -25,6 +26,9 @@ export const getters = {
   },
   page(state) {
     return state.page;
+  },
+  related(state) {
+    return state.related;
   }
 };
 
@@ -43,10 +47,13 @@ export const mutations = {
   },
   SET_PAGE(state, value) {
     state.page = value;
+  },
+  SET_RELATED(state, value) {
+    state.related = value;
   }
 };
 
-const url = `https://public-api.wordpress.com/wp/v2/sites/truecaller.blog`;
+const url = `https://www.rentomojo.com/blog/wp-json/wp/v2`;
 
 export const actions = {
   getPostsData: async ({ commit }, value) => {
@@ -86,7 +93,7 @@ export const actions = {
     }
   },
 
-  getSinglePostData: async ({ commit }, value) => {
+  getSinglePostData: async ({ commit, dispatch }, value) => {
     try {
       let appendUrl = "";
       if (value && value.postId) {
@@ -99,7 +106,18 @@ export const actions = {
         return Promise.resolve(data);
       } else {
         commit("SET_POST", data);
+        await dispatch("getRelatedPosts", {tags: data[0].tags, current: data[0].id});
       }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  getRelatedPosts: async ({ commit }, value) => {
+    try {
+      let { data } = await axios.get(`${url}/posts?tags=${value.tags}`);
+      data = data.filter((el) => el.id != value.current);
+      commit("SET_RELATED", data);
     } catch (error) {
       console.log(error);
     }

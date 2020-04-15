@@ -5,26 +5,22 @@
     <!-- Related Posts -->
     <div class="true-post-related">
       <h2>Related Articles</h2>
-      <div
-        class="row"
-        v-for="(post, index) in post"
-        :key="`post-content-${index}`"
-      >
+      <div class="row">
         <div
           target="_blank"
           rel="noreferrer noopener"
           class="true-post-related__content col-6 col-md-3"
-          v-for="(related, index) in post['jetpack-related-posts'].slice(0, 4)"
+          v-for="(post, index) in related.slice(0, 4)"
           :key="`post-content-${index}`"
-          @click="getRelatedPost(related.id)"
-          :aria-label="related.title"
+          @click="goToPost(post.slug)"
+          :aria-label="post.title"
         >
           <img
-            :src="related.img.src"
-            :alt="related.alt_text"
+            :src="post.jetpack_featured_media_url"
+            :alt="post.slug"
             class="true-post-related__img"
           />
-          <h3 v-html="related.title"></h3>
+          <h3 v-html="post.title && post.title.rendered"></h3>
         </div>
       </div>
     </div>
@@ -38,15 +34,14 @@ export default {
   name: "RelatedPosts",
 
   computed: {
-    ...mapGetters(["post"])
+    ...mapGetters(["related"])
   },
 
   methods: {
-    ...mapActions(["getSinglePostData"]),
+    // ...mapActions(["getSinglePostData"]),
 
-    async getRelatedPost(postId) {
-      const data = await this.getSinglePostData({ postId: postId });
-      this.$router.push({ path: `/article/${data[0].slug}` });
+    goToPost(postSlug) {
+      this.$router.push({ path: `/article/${postSlug}` });
     }
   }
 };
