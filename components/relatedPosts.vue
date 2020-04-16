@@ -1,9 +1,9 @@
 <template>
   <div>
-    <hr />
+    <hr v-show="related && related.length > 0" />
 
     <!-- Related Posts -->
-    <div class="true-post-related">
+    <div class="true-post-related" v-show="related && related.length > 0" >
       <h2>Related Articles</h2>
       <div class="row">
         <div
