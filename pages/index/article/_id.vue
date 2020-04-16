@@ -13,7 +13,7 @@
         class="true-post-content__img"
       />
       <h1
-        v-html="getPostTitle(post.title.rendered)"
+        v-html="post.title.rendered"
         class="true-post-content__title"
       ></h1>
 
@@ -56,7 +56,7 @@ export default {
 
   data() {
     return {
-      title: ""
+      title: "Article"
     };
   },
 
@@ -87,7 +87,7 @@ export default {
 
   head() {
     return {
-      title: this.title
+      title: this.post[0].title.rendered
     };
   },
 
