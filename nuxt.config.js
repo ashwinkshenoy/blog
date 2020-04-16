@@ -1,10 +1,9 @@
-const blogUrl = "https://truecaller.blog/wp-json/wp/v2";
 
 export default {
   mode: "universal",
 
   head: {
-    title: process.env.npm_package_name || "",
+    titleTemplate: '%s | Rentomojo Blog',
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -43,7 +42,9 @@ export default {
     ]
   },
 
-  loading: { color: "#fff" },
+  loading: { 
+    color: "#dc3226" 
+  },
 
   css: [],
 

@@ -58,17 +58,24 @@ $el: ".true-post";
   margin: 50px 0 80px;
   &__img-div {
     position: relative;
+    border: solid 1px #efefef;
+    border-radius: 10px;
+    max-height: 185px;
     &:after {
       content: "";
       position: absolute;
-      background: url("../assets/images/true-app-icon.png") no-repeat;
-      width: 50px;
-      height: 50px;
-      background-size: cover;
+      background: url("../assets/images/no-preview.svg") no-repeat;
+      width: 150px;
+      height: 150px;
+      background-size: 150px;
       left: 50%;
       top: 50%;
       z-index: 0;
       transform: translate(-50%, -50%);
+    }
+    @media screen and (min-width: 992px) {
+      height: 400px;
+      max-height: 400px;
     }
   }
   &__img {

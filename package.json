@@ -1,7 +1,7 @@
 {
-  "name": "truecaller",
+  "name": "rentomojo",
   "version": "1.0.0",
-  "description": "My superior Nuxt.js project",
+  "description": "A simple Wordpress implementation using Nuxt.js",
   "author": "ashwinkshenoy",
   "private": true,
   "scripts": {

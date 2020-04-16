@@ -56,7 +56,7 @@
 
     head() {
       return {
-        title: "Rentomojo Blog"
+        title: "Home"
       };
     }
   };

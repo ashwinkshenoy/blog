@@ -1,6 +1,6 @@
 <template>
   <div class="true-loader">
-    <img src="@/assets/images/true-app-icon.png" alt="app-icon-loader" />
+    <img src="@/assets/images/rm-loader.svg" alt="app-icon-loader" />
     <span>Loading blog content...</span>
   </div>
 </template>

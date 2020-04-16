@@ -1,6 +1,6 @@
 # Wordpress Blog Implementation using Nuxt.js
 
-A simple Wordpress blog implementation using Wordpress API's in Nuxt.js
+A sample Wordpress blog implementation using Wordpress API's in Nuxt.js
 
 ## Build Setup
 

@@ -61,7 +61,7 @@ export default {
 
   head() {
     return {
-      title: `${this.setPageTitle()} | Truecaller`
+      title: `${this.setPageTitle()}`
     };
   }
 };

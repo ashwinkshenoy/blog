@@ -56,7 +56,7 @@ export default {
 
   data() {
     return {
-      title: "Truecaller"
+      title: ""
     };
   },
 
@@ -80,7 +80,7 @@ export default {
     },
 
     getPostTitle(title) {
-      this.title = `${title} | Truecaller Blog`;
+      this.title = `${title}`;
       return title;
     }
   },
