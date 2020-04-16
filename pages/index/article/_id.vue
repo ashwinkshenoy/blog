@@ -114,7 +114,6 @@ $el: ".true-post-content";
     font-weight: 600;
     margin: 30px 0 10px;
     font-size: 24px;
-    text-transform: uppercase;
     @media screen and (min-width: 768px) {
       font-size: 34px;
     }
